@@ -17,6 +17,20 @@ is local.**
 
 ---
 
+## 📦 Installation
+
+```sh
+omarchy plugin install nishant/typing-academy
+```
+
+Then reload the shell:
+
+```sh
+omarchy restart shell
+```
+
+---
+
 ## 🎯 Overview
 
 Typing Academy is an **Omarchy shell plugin** that turns your desktop into a complete
@@ -92,20 +106,6 @@ expand it like a real app.
 | `enter` | Start the obvious thing on the current tab |
 | `esc` | Leave practice / game, or close the academy |
 | `f11` | Toggle full screen |
-
----
-
-## 📦 Installation
-
-```sh
-omarchy plugin install nishant/typing-academy
-```
-
-Then reload the shell:
-
-```sh
-omarchy restart shell
-```
 
 ---
 
