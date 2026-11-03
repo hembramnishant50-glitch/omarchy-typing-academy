@@ -22,7 +22,7 @@ is local.**
 **Repo:** [hembramnishant50-glitch/omarchy-typing-academy](https://github.com/hembramnishant50-glitch/omarchy-typing-academy)
 
 ```sh
-omarchy plugin install nishant/typing-academy
+omarchy plugin install hembramnishant50-glitch/omarchy-typing-academy
 ```
 
 Then reload the shell:
