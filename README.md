@@ -19,6 +19,8 @@ is local.**
 
 ## 📦 Installation
 
+**Repo:** [hembramnishant50-glitch/omarchy-typing-academy](https://github.com/hembramnishant50-glitch/omarchy-typing-academy)
+
 ```sh
 omarchy plugin install nishant/typing-academy
 ```
