@@ -99,6 +99,12 @@ expand it like a real app.
 
 ---
 
+## 📸 Screenshots
+
+![Typing Academy](screenshots/1.png)
+
+---
+
 ## ⌨️ Controls
 
 | Keys | Action |
