@@ -11,7 +11,7 @@ is local.**
 [![Omarchy Plugin](https://img.shields.io/badge/omarchy-plugin-7aa2f7?style=flat-square)](https://omarchy.org)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](#license)
 [![Qt Quick](https://img.shields.io/badge/Qt_Quick-009688?style=flat-square&logo=Qt)](https://www.qt.io)
-[![No Network](https://img.shields.io/badge/no-network-lightgrey?style=flat-square)](#-no-network--privacy)
+[![No Network](https://img.shields.io/badge/no-network-lightgrey?style=flat-square)](#-overview)
 
 </div>
 
