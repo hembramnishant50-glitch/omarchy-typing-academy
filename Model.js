@@ -26,7 +26,9 @@ var DEFAULT_SETTINGS = {
   testMode: "time",
   testAmount: 30,
   quoteLength: "medium",
-  codeLang: "javascript"
+  codeLang: "javascript",
+  dailyGoalWpm: 20,
+  dailyGoalAcc: 90
 }
 
 var ACHIEVEMENTS = [
@@ -121,7 +123,8 @@ function defaultProfile() {
     tests: [],
     games: {},
     achievements: {},
-    settings: defaultSettings()
+    settings: defaultSettings(),
+    lastGoalDay: ""
   }
 }
 
@@ -247,6 +250,7 @@ function normalize(raw) {
     if (typeof srcAch[a] === "number") out.achievements[a] = srcAch[a]
   }
 
+  out.lastGoalDay = typeof src.lastGoalDay === "string" ? src.lastGoalDay : ""
   out.settings = normalizeSettings(src.settings)
 
   // Rebuild counters that older files may not have carried.
@@ -320,6 +324,18 @@ function liveStreak(profile) {
 
 function practicedToday(profile) {
   return (profile.days || {})[todayKey()] !== undefined
+}
+
+// A daily goal is cleared when a speed test reaches the configured WPM and
+// holds the configured accuracy in the same run. Zero on either side means the
+// goal is off.
+function dailyGoalMet(profile, result) {
+  var s = normalizeSettings(profile ? profile.settings : null)
+  var goalWpm = num(s.dailyGoalWpm, 20)
+  var goalAcc = num(s.dailyGoalAcc, 90)
+  if (!result) return false
+  if (goalWpm <= 0 && goalAcc <= 0) return false
+  return num(result.wpm, 0) >= goalWpm && num(result.acc, 0) >= goalAcc
 }
 
 function activeDays(profile) {

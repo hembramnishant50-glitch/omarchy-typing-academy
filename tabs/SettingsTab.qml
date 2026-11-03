@@ -245,6 +245,92 @@ Item {
       }
     }
 
+    // ---------------------------------------------------------- daily goal
+
+    Card {
+      width: parent.width
+      title: "Daily goal"
+      hint: "A speed test that clears both numbers today pays the bonus."
+
+      SettingRow {
+        label: "Goal speed"
+        hint: "WPM a speed test must reach to clear the daily goal."
+        controlWidth: Style.space(80)
+
+        Row {
+          id: goalWpmRow
+          x: parent.width - width
+          spacing: Style.space(6)
+
+          TextButton {
+            label: "-"
+            fontSize: Style.font.caption
+            horizontalPadding: Style.space(8)
+            onClicked: {
+              var cur = Number(root.settings.dailyGoalWpm) || 20
+              root.set("dailyGoalWpm", Math.max(1, cur - 1))
+            }
+          }
+
+          Text {
+            text: String(Math.round(Number(root.settings.dailyGoalWpm) || 0))
+            color: Util.alpha(Color.foreground, 0.9)
+            font.family: Style.font.family
+            font.pixelSize: Style.font.bodySmall
+          }
+
+          TextButton {
+            label: "+"
+            fontSize: Style.font.caption
+            horizontalPadding: Style.space(8)
+            onClicked: {
+              var cur = Number(root.settings.dailyGoalWpm) || 20
+              root.set("dailyGoalWpm", Math.min(200, cur + 1))
+            }
+          }
+        }
+      }
+
+      SettingRow {
+        label: "Goal accuracy"
+        hint: "Accuracy a speed test must hold to clear the daily goal."
+        controlWidth: Style.space(80)
+
+        Row {
+          id: goalAccRow
+          x: parent.width - width
+          spacing: Style.space(6)
+
+          TextButton {
+            label: "-"
+            fontSize: Style.font.caption
+            horizontalPadding: Style.space(8)
+            onClicked: {
+              var cur = Number(root.settings.dailyGoalAcc) || 90
+              root.set("dailyGoalAcc", Math.max(50, Math.min(100, cur - 1)))
+            }
+          }
+
+          Text {
+            text: String(Math.round(Number(root.settings.dailyGoalAcc) || 0))
+            color: Util.alpha(Color.foreground, 0.9)
+            font.family: Style.font.family
+            font.pixelSize: Style.font.bodySmall
+          }
+
+          TextButton {
+            label: "+"
+            fontSize: Style.font.caption
+            horizontalPadding: Style.space(8)
+            onClicked: {
+              var cur = Number(root.settings.dailyGoalAcc) || 90
+              root.set("dailyGoalAcc", Math.min(100, Math.max(50, cur + 1)))
+            }
+          }
+        }
+      }
+    }
+
     // ---------------------------------------------------------------- profile
 
     Card {

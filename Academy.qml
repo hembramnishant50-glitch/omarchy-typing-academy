@@ -51,6 +51,12 @@ Item {
   property var session: null
   property string gameMode: "falling"
 
+  // Adaptive difficulty: multiplier applied to the next lesson's target WPM.
+  // Pushed up when the user cleared the bar with margin, eased off when they
+  // struggled, so the curriculum moves with real performance instead of staying
+  // frozen at stage defaults.
+  property real adaptiveLesson: 1.0
+
   property string toastText: ""
   property bool toastVisible: false
 
@@ -167,14 +173,15 @@ Item {
       return
     }
     var stage = Lessons.stageFor(lesson.stage)
+    var effWpm = Math.max(10, Math.round(lesson.targetWpm * academy.adaptiveLesson))
     session = {
       kind: "lesson",
       id: lesson.id,
       title: lesson.title,
-      subtitle: (stage ? stage.title + " · " : "") + "aim for " + lesson.targetWpm + " wpm at " +
+      subtitle: (stage ? stage.title + " · " : "") + "aim for " + effWpm + " wpm at " +
                 lesson.targetAcc + "% accuracy",
       text: lesson.text,
-      targetWpm: lesson.targetWpm,
+      targetWpm: effWpm,
       targetAcc: lesson.targetAcc,
       timeLimit: 0,
       testMode: "lesson",
@@ -290,6 +297,24 @@ Item {
     })
   }
 
+  // Adaptive difficulty: derive the next run's difficulty from how the last
+  // one actually went. Clearance with margin pushes up; struggle eases off.
+  function adaptiveFromOutcome(outcome, sess) {
+    var target = Number(sess && sess.targetWpm) || 0
+    var targetAcc = Number(sess && sess.targetAcc) || 0
+    if (!outcome || target <= 0) return academy.adaptiveLesson
+    var passBar = Math.max(88, targetAcc - 8)
+    var cleared = outcome.acc >= passBar
+    var wpmRatio = outcome.wpm / Math.max(1, target)
+    if (cleared && outcome.acc >= 97 && wpmRatio >= 1.15) {
+      return Math.min(1.3, academy.adaptiveLesson * 1.1)
+    }
+    if (!cleared || outcome.acc < passBar - 4 || wpmRatio < 0.8) {
+      return Math.max(0.6, academy.adaptiveLesson * 0.9)
+    }
+    return academy.adaptiveLesson
+  }
+
   function recordSession(outcome) {
     if (!session || !outcome) return
     var kind = session.kind
@@ -299,6 +324,7 @@ Item {
     if (kind === "lesson") {
       passed = outcome.acc >= Math.max(88, session.targetAcc - 8)
       Model.recordLesson(next, session.id, withExtra(outcome, { passed: passed }))
+      academy.adaptiveLesson = adaptiveFromOutcome(outcome, session)
     } else if (kind === "drill") {
       Model.recordDrill(next, outcome)
     } else {
@@ -306,6 +332,15 @@ Item {
         mode: session.testMode || "time",
         amount: session.amount || 0
       }))
+    }
+
+    var goalHit = false
+    if (kind === "test") {
+      goalHit = Model.dailyGoalMet(next, outcome)
+      if (goalHit) {
+        next.lastGoalDay = Model.todayKey()
+        Model.addXp(next, 25)
+      }
     }
 
     var unlocked = Model.evaluate(next, {
@@ -322,7 +357,8 @@ Item {
       if (passed) toast("Lesson complete — " + Math.round(outcome.wpm) + " wpm")
       else toast("Accuracy " + Math.round(outcome.acc) + "% — " + Math.round(Math.max(88, session.targetAcc - 8)) + "% needed to move on")
     } else if (kind === "test") {
-      toast(Math.round(outcome.wpm) + " wpm at " + Math.round(outcome.acc) + "%")
+      if (goalHit) toast("Daily goal hit — " + Math.round(outcome.wpm) + " wpm at " + Math.round(outcome.acc) + "%")
+      else toast(Math.round(outcome.wpm) + " wpm at " + Math.round(outcome.acc) + "%")
     }
   }
 

@@ -29,6 +29,21 @@ Item {
 
   // "1 lessons" is the kind of detail that makes a progress page feel machine
   // written. Every count on this page goes through here.
+  // The latest run from today, if any — it is the one that can clear the
+  // daily goal.
+  function todayResult() {
+    var out = null
+    for (var i = 0; i < root.history.length; i++) {
+      var entry = root.history[i]
+      if (Model.dayKey(entry.ts) === Model.todayKey()) out = entry
+    }
+    return out
+  }
+
+  function dailyCleared() {
+    return Model.dailyGoalMet(root.stats, root.todayResult())
+  }
+
   function plural(n, word) {
     return n + " " + word + (n === 1 ? "" : "s")
   }
@@ -147,6 +162,52 @@ Item {
             label: statCard.modelData.label
             valueSize: Style.font.heading
           }
+        }
+      }
+    }
+
+    // ---------------------------------------------------------- daily goal
+
+    Card {
+      width: parent.width
+      title: "Daily goal"
+      hint: root.dailyCleared()
+        ? "Cleared today — bonus banked."
+        : "Clear a speed test against today's goal to bank the bonus."
+
+      Item {
+        width: parent.width
+        height: Style.space(18)
+
+        Text {
+          anchors.left: parent.left
+          width: parent.width
+          text: {
+            var r = root.todayResult()
+            var out = "No test today yet — take one to set the pace."
+            if (root.dailyCleared()) {
+              out = "Cleared — " + (r ? Math.round(r.wpm) + " wpm at " + Math.round(r.acc) + "%" : "goal met")
+            } else if (r) {
+              var s = root.stats
+              var st = (s && s.settings) ? s.settings : Model.defaultSettings()
+              var gWpm = Number(st.dailyGoalWpm)
+              var gAcc = Number(st.dailyGoalAcc)
+              out = "Latest run " + Math.round(r.wpm) + " wpm at " + Math.round(r.acc) + "% — goal " + Math.round(gWpm) + " wpm / " + Math.round(gAcc) + "%"
+            }
+            return out
+          }
+          color: Util.alpha(Color.foreground, 0.72)
+          font.family: Style.font.family
+          font.pixelSize: Style.font.caption
+          wrapMode: Text.WordWrap
+        }
+
+        Text {
+          anchors.right: parent.right
+          text: "streak " + Model.liveStreak(root.stats) + (Model.liveStreak(root.stats) === 1 ? " day" : " days")
+          color: Util.alpha(Color.foreground, 0.54)
+          font.family: Style.font.family
+          font.pixelSize: Style.font.caption
         }
       }
     }
