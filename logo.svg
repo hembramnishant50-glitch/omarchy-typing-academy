@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="kb" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7aa2f7"/>
+      <stop offset="1" stop-color="#9ece6a"/>
+    </linearGradient>
+  </defs>
+  <!-- Keyboard base -->
+  <rect x="32" y="170" width="448" height="250" rx="18" fill="#1a1b26" stroke="#3b4261" stroke-width="6"/>
+  <!-- Key rows -->
+  <g fill="#3b4261">
+    <rect x="64" y="200" width="48" height="44" rx="6"/>
+    <rect x="120" y="200" width="48" height="44" rx="6"/>
+    <rect x="176" y="200" width="48" height="44" rx="6"/>
+    <rect x="232" y="200" width="48" height="44" rx="6"/>
+    <rect x="288" y="200" width="48" height="44" rx="6"/>
+    <rect x="344" y="200" width="48" height="44" rx="6"/>
+    <rect x="400" y="200" width="48" height="44" rx="6"/>
+  </g>
+  <g fill="#2e3347">
+    <rect x="64" y="254" width="48" height="44" rx="6"/>
+    <rect x="120" y="254" width="48" height="44" rx="6"/>
+    <rect x="176" y="254" width="48" height="44" rx="6"/>
+    <rect x="232" y="254" width="48" height="44" rx="6"/>
+    <rect x="288" y="254" width="48" height="44" rx="6"/>
+    <rect x="344" y="254" width="48" height="44" rx="6"/>
+    <rect x="400" y="254" width="48" height="44" rx="6"/>
+  </g>
+  <g fill="#1a1b26">
+    <rect x="64" y="318" width="48" height="44" rx="6"/>
+    <rect x="120" y="318" width="48" height="44" rx="6"/>
+    <rect x="176" y="318" width="48" height="44" rx="6"/>
+    <rect x="232" y="318" width="48" height="44" rx="6"/>
+    <rect x="288" y="318" width="48" height="44" rx="6"/>
+    <rect x="344" y="318" width="48" height="44" rx="6"/>
+    <rect x="400" y="318" width="48" height="44" rx="6"/>
+  </g>
+  <!-- Highlighted key (A) with accent glow -->
+  <rect x="64" y="200" width="48" height="44" rx="6" fill="none" stroke="url(#kb)" stroke-width="4"/>
+  <rect x="72" y="208" width="32" height="28" rx="4" fill="url(#kb)" opacity="0.3"/>
+  <text x="88" y="226" font-family="monospace" font-size="20" font-weight="bold" fill="#7aa2f7" text-anchor="middle">A</text>
+  <!-- Typing caret glow -->
+  <rect x="140" y="232" width="8" height="22" rx="4" fill="#9ece6a" opacity="0.85"/>
+</svg>

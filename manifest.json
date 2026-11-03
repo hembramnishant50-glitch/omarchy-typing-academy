@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "nishant.typing-academy",
+  "name": "Typing Academy",
+  "version": "1.0.0",
+  "author": "nishant",
+  "license": "MIT",
+  "description": "Learn touch typing: guided lessons, adaptive weak-key drills, speed tests, a live keyboard map, games and long-term progress tracking.",
+  "kinds": [
+    "overlay",
+    "bar-widget"
+  ],
+  "keepLoaded": true,
+  "entryPoints": {
+    "overlay": "Academy.qml",
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Typing Academy",
+    "description": "Touch typing lessons, drills, speed tests and games",
+    "category": "Productivity",
+    "allowMultiple": false,
+    "defaultSection": "right",
+    "schema": []
+  }
+}
